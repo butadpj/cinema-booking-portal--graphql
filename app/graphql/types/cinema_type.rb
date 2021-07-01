@@ -24,5 +24,9 @@ module Types
     def seats_count
       object.seats.count
     end
+
+    def available_seats
+      object.max_seat - object.seats.count
+    end
   end
 end

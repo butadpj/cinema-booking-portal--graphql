@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_01_120950) do
+ActiveRecord::Schema.define(version: 2021_07_01_185518) do
 
   create_table "cinemas", force: :cascade do |t|
     t.string "name"
-    t.integer "available_seats", default: 10
+    t.integer "max_seat", default: 10
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2021_07_01_120950) do
   end
 
   create_table "seats", force: :cascade do |t|
-    t.string "number"
+    t.integer "number"
     t.integer "cinema_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
