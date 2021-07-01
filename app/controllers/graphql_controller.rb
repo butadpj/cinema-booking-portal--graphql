@@ -5,8 +5,8 @@ class GraphqlController < ApplicationController
     operation_name = params[:operationName]
     context = {
       session: SESSION,
-      current_user: current_user(SESSION[:token])
-      # logout_user: logout_user(SESSION)
+      current_user: current_user(SESSION[:token]),
+      admin?: admin?(SESSION[:token])
     }
     result = CinemaBookingPortalGqlSchema.execute(query, variables: variables, context: context,
                                                          operation_name: operation_name)
@@ -19,10 +19,6 @@ class GraphqlController < ApplicationController
 
   private
 
-  # def logout_user(session)
-  #   session[:token] = ''
-  # end
-
   def current_user(token)
     return if token.blank?
 
@@ -31,6 +27,13 @@ class GraphqlController < ApplicationController
     User.find(user_id)
   rescue ActiveSupport::MessageVerifier::InvalidSignature
     nil
+  end
+
+  def admin?(token)
+    return if token.blank?
+
+    user = current_user(token)
+    user.is_admin
   end
 
   # Handle variables in form data, JSON body, or a blank value
