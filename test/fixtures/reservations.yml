@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  time_slot: MyString
+  user: one
+  movie: one
+  seat: one
+
+two:
+  time_slot: MyString
+  user: two
+  movie: two
+  seat: two

@@ -10,7 +10,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_30_093607) do
+ActiveRecord::Schema.define(version: 2021_07_01_120950) do
+
+  create_table "cinemas", force: :cascade do |t|
+    t.string "name"
+    t.integer "available_seats", default: 10
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "movies", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.integer "cinema_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cinema_id"], name: "index_movies_on_cinema_id"
+  end
+
+  create_table "reservations", force: :cascade do |t|
+    t.string "time_slot"
+    t.integer "user_id", null: false
+    t.integer "movie_id", null: false
+    t.integer "seat_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["movie_id"], name: "index_reservations_on_movie_id"
+    t.index ["seat_id"], name: "index_reservations_on_seat_id"
+    t.index ["user_id"], name: "index_reservations_on_user_id"
+  end
+
+  create_table "seats", force: :cascade do |t|
+    t.string "number"
+    t.integer "cinema_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cinema_id"], name: "index_seats_on_cinema_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "first_name"
@@ -19,6 +55,13 @@ ActiveRecord::Schema.define(version: 2021_06_30_093607) do
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "phone_number"
+    t.boolean "is_admin", default: false
   end
 
+  add_foreign_key "movies", "cinemas"
+  add_foreign_key "reservations", "movies"
+  add_foreign_key "reservations", "seats"
+  add_foreign_key "reservations", "users"
+  add_foreign_key "seats", "cinemas"
 end
