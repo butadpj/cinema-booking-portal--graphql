@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_01_185518) do
+ActiveRecord::Schema.define(version: 2021_07_02_154602) do
 
   create_table "cinemas", force: :cascade do |t|
     t.string "name"
@@ -35,9 +35,18 @@ ActiveRecord::Schema.define(version: 2021_07_01_185518) do
     t.integer "seat_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "cinema_id", null: false
+    t.index ["cinema_id"], name: "index_reservations_on_cinema_id"
     t.index ["movie_id"], name: "index_reservations_on_movie_id"
     t.index ["seat_id"], name: "index_reservations_on_seat_id"
     t.index ["user_id"], name: "index_reservations_on_user_id"
+  end
+
+  create_table "reserved_seats", force: :cascade do |t|
+    t.integer "seat_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["seat_id"], name: "index_reserved_seats_on_seat_id"
   end
 
   create_table "seats", force: :cascade do |t|
@@ -60,8 +69,10 @@ ActiveRecord::Schema.define(version: 2021_07_01_185518) do
   end
 
   add_foreign_key "movies", "cinemas"
+  add_foreign_key "reservations", "cinemas"
   add_foreign_key "reservations", "movies"
   add_foreign_key "reservations", "seats"
   add_foreign_key "reservations", "users"
+  add_foreign_key "reserved_seats", "seats"
   add_foreign_key "seats", "cinemas"
 end

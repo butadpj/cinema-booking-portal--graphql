@@ -1,5 +1,6 @@
 module Types
   class MutationType < Types::BaseObject
+    field :create_reservation, mutation: Mutations::CreateReservation
     field :initialize_seats, mutation: Mutations::InitializeSeats
     field :create_seat, mutation: Mutations::CreateSeat
     field :create_movie, mutation: Mutations::CreateMovie

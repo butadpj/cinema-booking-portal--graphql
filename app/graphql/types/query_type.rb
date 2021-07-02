@@ -8,7 +8,7 @@ module Types
       argument :id, ID, required: true
     end
 
-    field :users_count, [Integer], null: false do
+    field :users_count, Integer, null: false do
       description 'Query the total number of users'
     end
 
@@ -36,7 +36,15 @@ module Types
       description 'Query all seats'
     end
 
-    field :seat, [Types::SeatType], null: true do
+    field :seat, Types::SeatType, null: true do
+      argument :id, ID, required: true
+    end
+
+    field :reservations, [Types::ReservationType], null: true do
+      description 'Query all reservations'
+    end
+
+    field :reservation, Types::ReservationType, null: true do
       argument :id, ID, required: true
     end
 
@@ -79,6 +87,14 @@ module Types
 
     def seat(id:)
       Seat.find(id)
+    end
+
+    def reservations
+      Reservation.all
+    end
+
+    def reservation(id:)
+      Reservation.find(id)
     end
   end
 end
